@@ -1,0 +1,14 @@
+module.export = (req, res, next) => {
+    if(req.method === "POST" && req.path === "/login"){
+        if(req.body.username === "jack" && req.body.password === "123123"){
+            return res.status(200).json({
+                user: {
+                    token: '123456'
+                }
+            })
+        }else{
+            return res.status(400).json({message: "用戶名或密碼錯誤"})
+        }
+    }
+    next()
+}
