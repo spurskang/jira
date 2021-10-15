@@ -1,29 +1,40 @@
-import { useState } from "react";
-import { RegisterScreen } from "./register";
-import { LoginScreen } from "./login";
+import React, { useState } from "react";
+import { RegisterScreen } from "unauthenticated-app/register";
+import { LoginScreen } from "unauthenticated-app/login";
 import { Button, Card, Divider } from "antd";
 import styled from "@emotion/styled";
-import logo from '../assets/logo.svg';
-import left from '../assets/left.svg';
-import right from '../assets/right.svg';
+import logo from "assets/logo.svg";
+import left from "assets/left.svg";
+import right from "assets/right.svg";
+import { useDocumentTitle } from "utils";
+import { ErrorBox } from "components/lib";
 
-export const UnauthenticatedApp = () => {
-    // 判斷是否登入
-    const [isRegister, setIsRegister] = useState(false);
-    
-    return (
-        <Container>
-            <Header />
-            <Background />
-            <ShadowCard>
-                {isRegister ? <RegisterScreen /> : <LoginScreen />}
-                <Divider />
-                <Button type={'link'} onClick={() => setIsRegister(!isRegister)}>切換到{isRegister ? '登入' : '註冊'}</Button>
-            </ShadowCard>
-        </Container>)
+export default function UnauthenticatedApp() {
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useDocumentTitle("請登入註冊後繼續");
+
+  return (
+    <Container>
+      <Header />
+      <Background />
+      <ShadowCard>
+        <Title>{isRegister ? "請註冊" : "請登入"}</Title>
+        <ErrorBox error={error} />
+        {isRegister ? (
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
+        <Divider />
+        <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "登入" : "註冊新帳號"}
+        </Button>
+      </ShadowCard>
+    </Container>
+  );
 }
-
-// css in js
 
 export const LongButton = styled(Button)`
   width: 100%;
@@ -35,37 +46,37 @@ const Title = styled.h2`
 `;
 
 const Background = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: left bottom, right bottom;
-    background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: left bottom, right bottom;
+  background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
     calc(((100vw - 40rem) / 2) - 3.2rem), cover;
-    background-image: url(${left}), url(${right});
+  background-image: url(${left}), url(${right});
 `;
 
 const Header = styled.header`
-    background: url(${logo}) no-repeat center;
-    padding: 5rem 0;
-    background-size: 8rem;
-    width: 100%;
+  background: url(${logo}) no-repeat center;
+  padding: 5rem 0;
+  background-size: 8rem;
+  width: 100%;
 `;
 
 const ShadowCard = styled(Card)`
-    width: 40rem;
-    min-height: 56rem;
-    padding: 3.2rem 4rem;
-    border-radius: 0.3rem;
-    box-sizing: border-box;
-    box-shadow: rgba(0,0,0,0.1) 0 0 10px;
-    text-align: center;
+  width: 40rem;
+  min-height: 56rem;
+  padding: 3.2rem 4rem;
+  border-radius: 0.3rem;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+  text-align: center;
 `;
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+`;

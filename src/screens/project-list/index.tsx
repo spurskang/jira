@@ -1,40 +1,46 @@
-import {List} from "./list";
-import { SearchPanel } from "./search-panel";
-import { useState, useEffect } from "react";
-import * as qs from 'qs';
-import { cleanObject, useDebounce, useMount } from "utils";
-import { useHttp } from "utils/http";
-import styled from "@emotion/styled";
-import { useAsync } from "utils/use-async";
-import { Typography } from "antd";
-
-const apiUrl = process.env.REACT_APP_API_URL
+import React from "react";
+import { SearchPanel } from "screens/project-list/search-panel";
+import { List } from "screens/project-list/list";
+import { useDebounce, useDocumentTitle } from "utils";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
+import {
+  useProjectModal,
+  useProjectsSearchParams,
+} from "screens/project-list/util";
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
+import { Profiler } from "components/profiler";
 
 export const ProjectListScreen = () => {
-    const [users, setUsers] = useState([]);
-    const [param, setParam] = useState({
-        name: '',
-        personId: ''
-    });
-    const debouncedParam = useDebounce(param, 200);
-    const client = useHttp();
-    const { run, isLoading, error, data: list } = useAsync<Project[]>(); 
+  useDocumentTitle("項目列表", false);
 
-    useEffect(()=>{
-        run(client('projects',{data: cleanObject(debouncedParam)}));
-    }, [debouncedParam]);
+  const { open } = useProjectModal();
 
-    useMount(()=>{
-        client('users').then(setUsers);
-    });
+  const [param, setParam] = useProjectsSearchParams();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 200));
+  const { data: users } = useUsers();
 
-    return (
-        <div style={{padding: '3.2rem'}}>
-            <h1>項目列表</h1>
-            <SearchPanel users={ users } param={ param } setParam={setParam}/>
-            {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
-            <List loading={isLoading} users={ users } dataSource={list || []}/>
-        </div>
-    );
+  return (
+    <Profiler id={"項目列表"}>
+      <ScreenContainer>
+        <Row marginBottom={2} between={true}>
+          <h1>項目列表</h1>
+          <ButtonNoPadding onClick={open} type={"link"}>
+            創建項目
+          </ButtonNoPadding>
+        </Row>
+        <SearchPanel users={users || []} param={param} setParam={setParam} />
+        <ErrorBox error={error} />
+        <List loading={isLoading} users={users || []} dataSource={list || []} />
+      </ScreenContainer>
+    </Profiler>
+  );
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
