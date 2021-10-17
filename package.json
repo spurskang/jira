@@ -40,7 +40,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -r git@github.com:spurskang/spurskang.github.io.git -b main" 
   },
   "eslintConfig": {
     "extends": [
@@ -63,6 +65,7 @@
   "devDependencies": {
     "@types/qs": "^6.9.7",
     "@welldone-software/why-did-you-render": "^6.2.1",
+    "gh-pages": "^3.2.3",
     "prettier": "2.4.1"
   },
   "msw": {

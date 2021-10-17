@@ -4,7 +4,9 @@ import { Form, Input } from "antd";
 import { LongButton } from "unauthenticated-app/index";
 import { useAsync } from "utils/use-async";
 
+/* eslint-disable no-unused-vars */
 const apiUrl = process.env.REACT_APP_API_URL;
+/* eslint-enable no-unused-vars */
 
 export const RegisterScreen = ({
   onError,
