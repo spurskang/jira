@@ -2,7 +2,7 @@ import { useSetUrlSearchParam, useUrlQueryParam } from "utils/url";
 import { useMemo } from "react";
 import { useProject } from "utils/project";
 
-// 项目列表搜索的参数
+//項目列表搜索參數
 export const useProjectsSearchParams = () => {
   const [param, setParam] = useUrlQueryParam(["name", "personId"]);
   return [

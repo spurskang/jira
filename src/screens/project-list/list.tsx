@@ -22,6 +22,7 @@ export const List = ({ users, ...props }: ListProps) => {
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
+      style={{ overflow: "auto"}}
       rowKey={"id"}
       pagination={false}
       columns={[

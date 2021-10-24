@@ -12,7 +12,7 @@ export const ProjectPopover = () => {
 
   const content = (
     <ContentContainer>
-      <Typography.Text type={"secondary"}>收藏项目</Typography.Text>
+      <Typography.Text type={"secondary"}>收藏項目</Typography.Text>
       <List>
         {pinnedProjects?.map((project) => (
           <List.Item key={project.id}>
@@ -22,7 +22,7 @@ export const ProjectPopover = () => {
       </List>
       <Divider />
       <ButtonNoPadding onClick={open} type={"link"}>
-        创建项目
+        創建項目
       </ButtonNoPadding>
     </ContentContainer>
   );

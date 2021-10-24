@@ -16,7 +16,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
       <Form.Item>
         {/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
         <Input
-          placeholder={"项目名"}
+          placeholder={"項目名"}
           type="text"
           value={param.name}
           onChange={(evt) =>

@@ -17,11 +17,11 @@ export default function AuthenticatedApp() {
       <Container>
         <PageHeader />
         <Main>
-          <Routes>
-            <Route path={"/projects"} element={<ProjectListScreen />} />
-            <Route path={"/projects/:projectId/*"} element={<ProjectScreen />} />
-            <Navigate to={"/projects"} />
-          </Routes>
+            <Routes>
+              <Route path={"/projects"} element={<ProjectListScreen />} />
+              <Route path={"/projects/:projectId/*"} element={<ProjectScreen />} />
+              <Navigate to={"/projects"} />
+            </Routes>
         </Main>
         <ProjectModal />
       </Container>
